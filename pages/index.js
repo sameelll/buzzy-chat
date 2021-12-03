@@ -8,14 +8,29 @@ import axios from "axios";
 
 export default function Auth() {
 
-  const { setUsername, setSecret } = useContext(Context);
+  const { username, secret, setUsername, setSecret } = useContext(Context);
+
+  const router = useRouter();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (username.length === 0 || secret.length === 0) return
+
+    axios.put(
+      'https://api.chatengine.io/users/', 
+      {username, secret},
+      {headers: {"Private-key": '90367ab8-791f-4711-a32b-a334b29be724'}}
+    )
+    .then(r => router.push('/chats'))
+  }
 
   return (
     <div className="background">
       <div className="auth-container">
         <form
           className="auth-form"
-          onSubmit={e => e.preventDefault()}>
+          onSubmit={e => onSubmit(e)}>
             <div className="auth-title">
               Buzzy Chat
             </div>
