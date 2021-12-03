@@ -16,14 +16,17 @@ export default function Chats() {
   const { username, secret } = useContext(Context);
   const [showChat, setShowChat ] = useState(false)
   const router = useRouter();
-
+  
   useEffect(() => {
     if (typeof document !== null){
       setShowChat(true);
     }
-
     if (!showChat) return <div />
-  },[])
+  });
+
+  useEffect(() => {
+    if (username.length === "" || secret.length === "") router.push('/')
+  })
 
   return (
     <div className="background">
@@ -33,6 +36,7 @@ export default function Chats() {
           projectID='66427da2-8229-4596-8740-abc950ed7250'
           userName={username}
           userSecret={secret}
+          renderNewMessageForm={() => <MessageFormSocial />}
         />
       </div>
     </div>
